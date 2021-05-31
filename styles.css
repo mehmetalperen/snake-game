@@ -1,0 +1,16 @@
+canvas {
+  border-style: solid;
+  border-width: 2px;
+  border-color: #4d5739;
+  background-color: #9bba5a;
+}
+
+button {
+  display: block;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  background-color: #74942e;
+}
