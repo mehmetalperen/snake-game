@@ -18,7 +18,7 @@ body {
 
 .snake {
   border: 0.25vmin solid black;
-  background-color: black;
+  background-color: rgb(56, 78, 60);
 }
 
 .food {
