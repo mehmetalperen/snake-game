@@ -1,18 +1,9 @@
 let lastRenderTime = 0;
 const SNAKE_SPEED = 2; //move snake by 2 boxes every second
 const gameBoard = document.getElementById("game-board");
-const snakeBody = [
-  { x: 4, y: 11 },
-  { x: 3, y: 11 },
-  { x: 2, y: 11 },
-  { x: 1, y: 11 },
-  { x: 0, y: 11 },
-];
-const snakeDirection = {
-  xDirection: 1,
-  yDirection: 0,
-};
-let isGameOver = false;
+let snakeBody = [];
+let snakeDirection = {};
+let isGameOver;
 
 function main(currentTime) {
   //game loop
@@ -29,7 +20,7 @@ function main(currentTime) {
     draw(gameBoard);
   } else {
     alert("game is over my guy");
-    isGameOver = true;
+    initNewgame();
   }
 }
 
@@ -46,7 +37,16 @@ function update() {
   isHitBorder();
   isSnakeDead();
 }
-
+function draw(gameBoard) {
+  gameBoard.innerHTML = "";
+  snakeBody.forEach((segment) => {
+    const snakeElement = document.createElement("div");
+    snakeElement.style.gridRowStart = segment.y;
+    snakeElement.style.gridColumnStart = segment.x;
+    snakeElement.classList.add("snake");
+    gameBoard.appendChild(snakeElement);
+  });
+}
 function isHitBorder() {
   if (
     snakeBody[0].x < 0 ||
@@ -71,17 +71,6 @@ function isSnakeDead() {
   }
 }
 
-function draw(gameBoard) {
-  gameBoard.innerHTML = "";
-  snakeBody.forEach((segment) => {
-    const snakeElement = document.createElement("div");
-    snakeElement.style.gridRowStart = segment.y;
-    snakeElement.style.gridColumnStart = segment.x;
-    snakeElement.classList.add("snake");
-    gameBoard.appendChild(snakeElement);
-  });
-}
-
 function eventListener() {
   console.log("sub");
   document.addEventListener("keydown", (event) => {
@@ -101,5 +90,20 @@ function eventListener() {
     }
   });
 }
+function initNewgame() {
+  snakeBody = [
+    { x: 4, y: 11 },
+    { x: 3, y: 11 },
+    { x: 2, y: 11 },
+    { x: 1, y: 11 },
+    { x: 0, y: 11 },
+  ];
+  snakeDirection = {
+    xDirection: 1,
+    yDirection: 0,
+  };
+  isGameOver = false;
+}
 
 eventListener();
+initNewgame();
