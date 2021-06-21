@@ -1,18 +1,21 @@
 let lastRenderTime = 0;
-const SNAKE_SPEED = 3; //move snake by 2 boxes every second
+let snakeSpeed = 3; //move snake by 2 boxes every second
 const gameBoard = document.getElementById("game-board");
+const scoreTable = document.querySelector(".score-table");
+const speedTable = document.querySelector(".speed-table");
 let snakeBody = [];
 let snakeDirection = {};
 let isGameOver;
 let foodPos = {};
 let score;
+let increaseSpeed;
 
 function main(currentTime) {
   //game loop
   window.requestAnimationFrame(main);
 
   const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000; //divided by 1000 to convert it to seconds
-  if (secondsSinceLastRender < 1 / SNAKE_SPEED) return; //if last render time is smaller than the speed, don't render anything
+  if (secondsSinceLastRender < 1 / snakeSpeed) return; //if last render time is smaller than the speed, don't render anything
 
   lastRenderTime = currentTime;
 
@@ -41,6 +44,12 @@ function update() {
 }
 function draw(gameBoard) {
   gameBoard.innerHTML = "";
+  const foodDiv = document.createElement("div");
+  foodDiv.style.gridRowStart = foodPos.y;
+  foodDiv.style.gridColumnStart = foodPos.x;
+  foodDiv.classList.add("food");
+  gameBoard.appendChild(foodDiv);
+
   snakeBody.forEach((segment) => {
     const snakeElement = document.createElement("div");
     snakeElement.style.gridRowStart = segment.y;
@@ -48,11 +57,7 @@ function draw(gameBoard) {
     snakeElement.classList.add("snake");
     gameBoard.appendChild(snakeElement);
   });
-  const foodDiv = document.createElement("div");
-  foodDiv.style.gridRowStart = foodPos.y;
-  foodDiv.style.gridColumnStart = foodPos.x;
-  foodDiv.classList.add("food");
-  gameBoard.appendChild(foodDiv);
+
 }
 function isHitBorder() {
   if (
@@ -78,9 +83,27 @@ function isSnakeDead() {
 function isFoodEaten() {
   if (snakeBody[0].x === foodPos.x && snakeBody[0].y === foodPos.y) {
     setFoodPos();
-    snakeBody.push(snakeBody[snakeBody.length - 1]);
+    snakeBody.push(snakeBody[snakeBody.length - 1]);//adding new segment to the snake
     score++;
+    scoreHandle();
+    speedHandle();
   }
+}
+
+function speedHandle() {
+  increaseSpeed++;
+  if (increaseSpeed > 5) {
+    increaseSpeed = 0;
+    snakeSpeed++;
+  }
+
+  
+  speedTable.innerHTML = `Speed: ${snakeSpeed}`
+
+}
+
+function scoreHandle() {
+  scoreTable.innerHTML = `Score: ${score}`
 }
 
 function eventListener() {
@@ -125,6 +148,11 @@ function initNewgame() {
   isGameOver = false;
   setFoodPos();
   score = 0;
+  scoreHandle();
+  increaseSpeed = 0;
+  speedHandle();
+
+
 }
 
 eventListener();

@@ -7,6 +7,14 @@ body {
   margin: 0 auto;
   background-color: black;
 }
+.tables {
+  position: absolute;
+  top:0;
+  left: 50%;
+  z-index: 10;
+  color: rgb(0, 0, 0);
+  font-size: 20px;
+}
 #game-board {
   background-color: #74942e;
   width: 100vmin;
