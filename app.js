@@ -2,16 +2,17 @@ let lastRenderTime = 0;
 const SNAKE_SPEED = 2; //move snake by 2 boxes every second
 const gameBoard = document.getElementById("game-board");
 const snakeBody = [
-  { x: 10, y: 11 },
-  { x: 11, y: 11 },
-  { x: 12, y: 11 },
-  { x: 13, y: 11 },
-  { x: 14, y: 11 },
+  { x: 4, y: 11 },
+  { x: 3, y: 11 },
+  { x: 2, y: 11 },
+  { x: 1, y: 11 },
+  { x: 0, y: 11 },
 ];
 const snakeDirection = {
   xDirection: 1,
   yDirection: 0,
 };
+let isGameOver = false;
 
 function main(currentTime) {
   //game loop
@@ -24,7 +25,12 @@ function main(currentTime) {
   lastRenderTime = currentTime;
 
   update();
-  draw(gameBoard);
+  if (!isGameOver) {
+    draw(gameBoard);
+  } else {
+    alert("game is over my guy");
+    isGameOver = true;
+  }
 }
 
 window.requestAnimationFrame(main); //game loop calling
@@ -36,6 +42,33 @@ function update() {
   }
   snakeBody[0].x += snakeDirection.xDirection;
   snakeBody[0].y += snakeDirection.yDirection;
+
+  isHitBorder();
+  isSnakeDead();
+}
+
+function isHitBorder() {
+  if (
+    snakeBody[0].x < 0 ||
+    snakeBody[0].y < 0 ||
+    snakeBody[0].x > 21 ||
+    snakeBody[0].y > 21
+  ) {
+    isGameOver = true;
+    console.log(`hit border: ${snakeBody[0].x} and ${snakeBody[0].y}`);
+  }
+}
+
+function isSnakeDead() {
+  for (let i = 1; i < snakeBody.length; i++) {
+    if (
+      snakeBody[0].x === snakeBody[i].x &&
+      snakeBody[0].y === snakeBody[i].y
+    ) {
+      isGameOver = true;
+      console.log(`killed: ate ${i}`);
+    }
+  }
 }
 
 function draw(gameBoard) {
