@@ -23,7 +23,7 @@ function main(currentTime) {
   if (!isGameOver) {
     draw(gameBoard);
   } else {
-    alert(`Game is over! Your score is ${score}`);
+     alert(`Game is over! Your score is ${score}`);
     initNewgame();
   }
 }
@@ -38,9 +38,9 @@ function update() {
   snakeBody[0].x += snakeDirection.xDirection;
   snakeBody[0].y += snakeDirection.yDirection;
 
-  isHitBorder();
-  isSnakeDead();
-  isFoodEaten();
+  checkHitBorder();
+  checkSnakeDead();
+  checkFoodEaten();
 }
 function draw(gameBoard) {
   gameBoard.innerHTML = "";
@@ -59,7 +59,7 @@ function draw(gameBoard) {
   });
 
 }
-function isHitBorder() {
+function checkHitBorder() {
   if (
     snakeBody[0].x < 0 ||
     snakeBody[0].y < 0 ||
@@ -70,7 +70,7 @@ function isHitBorder() {
   }
 }
 
-function isSnakeDead() {
+function checkSnakeDead() {
   for (let i = 1; i < snakeBody.length; i++) {
     if (
       snakeBody[0].x === snakeBody[i].x &&
@@ -80,7 +80,7 @@ function isSnakeDead() {
     }
   }
 }
-function isFoodEaten() {
+function checkFoodEaten() {
   if (snakeBody[0].x === foodPos.x && snakeBody[0].y === foodPos.y) {
     setFoodPos();
     snakeBody.push(snakeBody[snakeBody.length - 1]);//adding new segment to the snake
@@ -160,7 +160,7 @@ initNewgame();
 
 function setFoodPos() {
   foodPos = {
-    x: Math.round(Math.random() * 21),
-    y: Math.round(Math.random() * 21),
+    x: Math.floor(Math.random() * 21 + 1),
+    y: Math.floor(Math.random() * 21 + 1),
   };
 }
