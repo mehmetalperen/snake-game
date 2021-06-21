@@ -4,6 +4,7 @@ const gameBoard = document.getElementById("game-board");
 let snakeBody = [];
 let snakeDirection = {};
 let isGameOver;
+let foodPos = {};
 
 function main(currentTime) {
   //game loop
@@ -35,6 +36,7 @@ function update() {
 
   isHitBorder();
   isSnakeDead();
+  isFoodEaten();
 }
 function draw(gameBoard) {
   gameBoard.innerHTML = "";
@@ -45,6 +47,11 @@ function draw(gameBoard) {
     snakeElement.classList.add("snake");
     gameBoard.appendChild(snakeElement);
   });
+  const foodDiv = document.createElement("div");
+  foodDiv.style.gridRowStart = foodPos.y;
+  foodDiv.style.gridColumnStart = foodPos.x;
+  foodDiv.classList.add("food");
+  gameBoard.appendChild(foodDiv);
 }
 function isHitBorder() {
   if (
@@ -67,6 +74,11 @@ function isSnakeDead() {
       isGameOver = true;
       console.log(`killed: ate ${i}`);
     }
+  }
+}
+function isFoodEaten() {
+  if (snakeBody[0].x === foodPos.x && snakeBody[0].y === foodPos.y) {
+    setFoodPos();
   }
 }
 
@@ -121,7 +133,15 @@ function initNewgame() {
     yDirection: 0,
   };
   isGameOver = false;
+  setFoodPos();
 }
 
 eventListener();
 initNewgame();
+
+function setFoodPos() {
+  foodPos = {
+    x: Math.round(Math.random() * 21),
+    y: Math.round(Math.random() * 21),
+  };
+}
