@@ -12,7 +12,6 @@ function main(currentTime) {
   const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000; //divided by 1000 to convert it to seconds
   if (secondsSinceLastRender < 1 / SNAKE_SPEED) return; //if last render time is smaller than the speed, don't render anything
 
-  console.log("render");
   lastRenderTime = currentTime;
 
   update();
@@ -76,17 +75,36 @@ function eventListener() {
   document.addEventListener("keydown", (event) => {
     if (event.keyCode === 38) {
       console.log("up");
-      snakeDirection.yDirection = -1;
-      snakeDirection.xDirection = 0;
+      if (snakeDirection.yDirection === 1) {
+        console.log("cant go back");
+      } else {
+        snakeDirection.yDirection = -1;
+        snakeDirection.xDirection = 0;
+      }
     } else if (event.keyCode === 40) {
-      snakeDirection.yDirection = 1;
-      snakeDirection.xDirection = 0;
+      console.log("down");
+      if (snakeDirection.yDirection === -1) {
+        console.log("cant go back");
+      } else {
+        snakeDirection.yDirection = 1;
+        snakeDirection.xDirection = 0;
+      }
     } else if (event.keyCode === 39) {
-      snakeDirection.yDirection = 0;
-      snakeDirection.xDirection = 1;
+      console.log("right");
+      if (snakeDirection.xDirection === -1) {
+        console.log("cant go back");
+      } else {
+        snakeDirection.yDirection = 0;
+        snakeDirection.xDirection = 1;
+      }
     } else if (event.keyCode === 37) {
-      snakeDirection.yDirection = 0;
-      snakeDirection.xDirection = -1;
+      console.log("left");
+      if (snakeDirection.xDirection === 1) {
+        console.log("cant go back");
+      } else {
+        snakeDirection.yDirection = 0;
+        snakeDirection.xDirection = -1;
+      }
     }
   });
 }
